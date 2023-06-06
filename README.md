@@ -27,7 +27,7 @@ sudo chmod +x /etc/rc.local
 在`/etc/rc.local`中添加：
 `sh /enable_CAN.sh &`
 
-
+## usage:
 ``` bash
 mkdir build
 cd build
