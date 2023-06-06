@@ -1,4 +1,32 @@
 # CAN数据读取功能使用
+创建一个`enable_CAN.sh`以实现系统启动时自动配置
+```bash
+touch /enable_CAN.sh
+chmod 777 /enable_CAN.sh
+```
+将orin板子上CAN口开启，`enable_CAN.sh`：
+```bash
+#!/bin/bash
+#设置 can0 为 canfd 模式，波特率 500Kbps，数据段波特率 2Mbps
+sudo ip link set can0 type can bitrate 500000 dbitrate 2000000 fd on
+#打开CAN0
+sudo ip link set up can0
+
+#设置 can1 为 canfd 模式，波特率 500Kbps，数据段波特率 2Mbps
+sudo ip link set can1 type can bitrate 500000 dbitrate 2000000 fd on
+#打开CAN1
+sudo ip link set up can1
+
+exit 0
+```
+创建自启动文件`/etc/rc.local`：
+```bash
+printf '%s\n' '#!/bin/bash' 'exit 0' | sudo tee -a /etc/rc.local
+sudo chmod +x /etc/rc.local
+```
+在`/etc/rc.local`中添加：
+`sh /enable_CAN.sh &`
+
 
 ``` bash
 mkdir build
